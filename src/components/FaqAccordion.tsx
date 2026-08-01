@@ -29,11 +29,11 @@ export default function FaqAccordion() {
       {items.map((item, index) => (
         <Accordion.Item value={`item-${index + 1}`} key={item.question}>
           <Accordion.Header>
-            <Accordion.Trigger className="group flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left font-serif text-lg font-medium text-ink transition-colors hover:text-accent-deep sm:text-xl">
+            <Accordion.Trigger className="group flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left font-serif text-base font-medium text-ink transition-colors hover:text-accent-deep sm:text-lg">
               {item.question}
               <span
                 aria-hidden="true"
-                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-line font-sans text-lg text-ink-faint transition-transform group-data-[state=open]:rotate-45"
+                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-line font-sans text-base text-ink-faint transition-transform group-data-[state=open]:rotate-45"
               >
                 +
               </span>

@@ -37,10 +37,10 @@ export default function ProductDemo() {
         <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[28px] border border-white/10 bg-[#fbfaf6] p-6 text-ink shadow-2xl shadow-black/20 sm:p-8">
             <p className="mb-2 text-xs font-semibold tracking-[0.16em] text-ink-faint uppercase">Sunday, July 26</p>
-            <h3 className="font-serif text-2xl font-medium sm:text-[30px]">Where did your time go today?</h3>
+            <h3 className="font-serif text-xl font-medium sm:text-2xl">Where did your time go today?</h3>
             <p className="mt-2 text-sm text-ink-faint">Ten seconds is enough.</p>
 
-            <p className="mt-8 max-w-xl font-serif text-xl leading-relaxed">
+            <p className="mt-8 max-w-xl font-serif text-lg leading-relaxed">
               Today, most of your recorded time went to <span className="text-create">creating</span> and{" "}
               <span className="text-communicate">communicating</span>.
             </p>
@@ -66,7 +66,7 @@ export default function ProductDemo() {
           <div className="flex flex-col gap-5">
             <div className="rounded-[28px] border border-white/10 bg-white/[0.06] p-6 sm:p-8">
               <p className="text-[11px] font-bold tracking-[0.14em] text-white/40 uppercase">Something worth noticing</p>
-              <p className="mt-4 font-serif text-xl leading-relaxed text-white/90">
+              <p className="mt-4 font-serif text-lg leading-relaxed text-white/90">
                 Your longest uninterrupted activity was 68 minutes of product planning.
               </p>
               <p className="mt-4 text-xs leading-relaxed text-white/35">A quiet fact, not a score.</p>
@@ -74,7 +74,7 @@ export default function ProductDemo() {
 
             <div className="rounded-[28px] border border-[#789185]/35 bg-[#405e54] p-6 sm:p-8">
               <p className="text-[11px] font-bold tracking-[0.14em] text-white/45 uppercase">Worth carrying forward?</p>
-              <p className="mt-4 font-serif text-xl leading-relaxed text-white">
+              <p className="mt-4 font-serif text-lg leading-relaxed text-white">
                 Defined the first privacy-first MVP for HelpMeBe.Me.
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
@@ -90,7 +90,7 @@ export default function ProductDemo() {
         <div className="rounded-[28px] border border-white/10 bg-[#fbfaf6] p-6 text-ink shadow-2xl shadow-black/20 sm:p-8">
           <p className="text-xs font-semibold tracking-[0.14em] text-ink-faint uppercase">Your long-term collection</p>
           <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
-            <h3 className="font-serif text-3xl font-medium">Memories</h3>
+            <h3 className="font-serif text-2xl font-medium">Memories</h3>
             <span className="text-xs text-ink-faint">Only what you chose to keep</span>
           </div>
           <div className="mt-8 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-white">
@@ -98,7 +98,7 @@ export default function ProductDemo() {
               <div className="grid gap-3 p-5 sm:grid-cols-[70px_1fr] sm:p-6" key={memory}>
                 <span className="font-mono text-[11px] text-ink-faint">{date}</span>
                 <div>
-                  <p className="font-serif text-lg leading-relaxed">{memory}</p>
+                  <p className="font-serif text-base leading-relaxed">{memory}</p>
                   <p className="mt-2 text-xs text-ink-faint">{meta}</p>
                 </div>
               </div>
@@ -110,19 +110,19 @@ export default function ProductDemo() {
       <Tabs.Content value="reflection" className="outline-none">
         <div className="rounded-[28px] border border-white/10 bg-[#fbfaf6] p-6 text-ink shadow-2xl shadow-black/20 sm:p-8">
           <p className="text-xs font-semibold tracking-[0.14em] text-ink-faint uppercase">Week of July 20–26</p>
-          <h3 className="mt-2 font-serif text-3xl font-medium">A week, gently reflected.</h3>
+          <h3 className="mt-2 font-serif text-2xl font-medium">A week, gently reflected.</h3>
           <div className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-3">
             <div className="bg-white p-6">
               <span className="text-[11px] font-bold tracking-[0.12em] text-ink-faint uppercase">What changed</span>
-              <p className="mt-4 font-serif text-lg leading-relaxed">Time spent creating grew from 4.2 to 6.8 hours.</p>
+              <p className="mt-4 font-serif text-base leading-relaxed">Time spent creating grew from 4.2 to 6.8 hours.</p>
             </div>
             <div className="bg-white p-6">
               <span className="text-[11px] font-bold tracking-[0.12em] text-ink-faint uppercase">Worth noticing</span>
-              <p className="mt-4 font-serif text-lg leading-relaxed">Your clearest thinking happened in longer, uninterrupted blocks.</p>
+              <p className="mt-4 font-serif text-base leading-relaxed">Your clearest thinking happened in longer, uninterrupted blocks.</p>
             </div>
             <div className="bg-accent-faint p-6">
               <span className="text-[11px] font-bold tracking-[0.12em] text-accent uppercase">A question, not advice</span>
-              <p className="mt-4 font-serif text-lg leading-relaxed">Does this reflect how you want to spend your time?</p>
+              <p className="mt-4 font-serif text-base leading-relaxed">Does this reflect how you want to spend your time?</p>
             </div>
           </div>
           <p className="mt-6 text-xs leading-relaxed text-ink-faint">
