@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HelpMeBe.Me — Brand &amp; Product Design V1.1</title>
-<style>
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionNav from "../components/SectionNav";
+import SiteHeader from "../components/SiteHeader.astro";
+---
+
+<BaseLayout
+  title="HelpMeBe.Me — Product & Brand Reference"
+  description="HelpMeBe.Me 的产品理念、品牌标识、设计系统、产品设计稿与市场验证参考文档。"
+>
+<script is:inline>
+  (() => {
+    const sections = ['sec-why', 'sec-logo', 'sec-ds', 'sec-wf', 'sec-gtm'];
+    const requested = window.location.hash.slice(1);
+    document.documentElement.dataset.docSection = sections.includes(requested) ? requested : 'sec-why';
+  })();
+</script>
+<style is:global>
   /* ============ Design Tokens ============ */
   :root{
     --paper:#FAF8F3;
@@ -41,7 +52,8 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
-    background:var(--paper);
+    background:#F2EFE8;
+    background-image:radial-gradient(circle at 50% 0,rgba(255,255,255,.9),rgba(242,239,232,0) 520px);
     color:var(--ink);
     font-family:var(--sans);
     font-size:15px;
@@ -51,42 +63,57 @@
   ::selection{background:var(--accent-soft);}
 
   /* ============ Page chrome ============ */
-  .doc-header{
-    max-width:1120px;margin:0 auto;padding:64px 40px 8px;
-    display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  .docs-nav-shell{
+    position:sticky;top:14px;z-index:50;
+    width:100%;padding:0 24px;margin-top:-27px;
   }
-  .doc-header .brandline{display:flex;align-items:center;gap:14px;}
-  .doc-header h1{font-family:var(--serif);font-size:30px;font-weight:500;letter-spacing:-.01em;}
-  .doc-header .meta{color:var(--ink-faint);font-size:13px;text-align:right;line-height:1.5;}
-  .doc-tagline{
-    max-width:1120px;margin:0 auto;padding:6px 40px 28px;
-    color:var(--ink-soft);font-family:var(--serif);font-size:17px;font-style:italic;
+  .docs-nav-frame{
+    width:min(960px,100%);margin:0 auto;padding:6px;
+    border:1px solid rgba(216,211,200,.9);border-radius:18px;
+    background:rgba(253,252,248,.9);box-shadow:0 10px 35px rgba(38,36,31,.09);
+    backdrop-filter:blur(18px);
   }
+  .docs-nav-scroll-area{width:100%;overflow:hidden;border-radius:13px;}
+  .docs-nav-viewport{width:100%;}
+  .docs-nav-list{
+    min-width:760px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;
+  }
+  .docs-nav-item{
+    appearance:none;border:0;border-radius:12px;background:transparent;cursor:pointer;
+    padding:11px 14px;display:flex;align-items:center;justify-content:center;gap:10px;
+    color:var(--ink-faint);font-family:var(--sans);text-align:left;
+    transition:background .18s,color .18s,box-shadow .18s;
+  }
+  .docs-nav-item:hover{background:rgba(38,36,31,.04);color:var(--ink);}
+  .docs-nav-item[data-state="on"]{
+    background:var(--ink);color:#fff;box-shadow:0 5px 15px rgba(38,36,31,.16);
+  }
+  .docs-nav-number{font-family:var(--mono);font-size:10px;opacity:.58;}
+  .docs-nav-copy{display:flex;flex-direction:column;line-height:1.15;}
+  .docs-nav-copy strong{font-size:12.5px;font-weight:650;white-space:nowrap;}
+  .docs-nav-copy small{margin-top:4px;font-size:9px;letter-spacing:.08em;text-transform:uppercase;opacity:.58;}
+  .docs-nav-scrollbar{display:flex;height:4px;touch-action:none;user-select:none;background:transparent;}
+  .docs-nav-thumb{position:relative;flex:1;border-radius:99px;background:rgba(62,92,82,.25);}
 
-  .top-nav{
-    position:sticky;top:0;z-index:50;
-    background:rgba(250,248,243,.88);backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--line);
+  .doc-section{
+    max-width:1120px;margin:36px auto 96px;padding:72px 72px 92px;display:none;
+    background:rgba(253,252,248,.94);border:1px solid var(--line);border-radius:28px;
+    box-shadow:0 24px 70px rgba(38,36,31,.08),0 2px 5px rgba(38,36,31,.035);
   }
-  .top-nav-inner{max-width:1120px;margin:0 auto;padding:0 40px;display:flex;gap:4px;}
-  .top-nav button{
-    appearance:none;border:none;background:none;cursor:pointer;
-    font-family:var(--sans);font-size:14px;color:var(--ink-faint);
-    padding:16px 18px 14px;border-bottom:2px solid transparent;
-    transition:color .2s,border-color .2s;
-  }
-  .top-nav button:hover{color:var(--ink);}
-  .top-nav button.active{color:var(--ink);border-bottom-color:var(--accent);font-weight:600;}
-
-  .doc-section{max-width:1120px;margin:0 auto;padding:56px 40px 80px;display:none;}
   .doc-section.active{display:block;}
+  html[data-doc-section] .doc-section{display:none;}
+  html[data-doc-section="sec-why"] #sec-why,
+  html[data-doc-section="sec-logo"] #sec-logo,
+  html[data-doc-section="sec-ds"] #sec-ds,
+  html[data-doc-section="sec-wf"] #sec-wf,
+  html[data-doc-section="sec-gtm"] #sec-gtm{display:block;}
 
   .sec-label{
     font-size:12px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--accent);font-weight:700;margin-bottom:10px;
+    color:var(--accent);font-weight:700;margin-bottom:12px;text-align:center;
   }
-  .sec-title{font-family:var(--serif);font-size:34px;font-weight:500;letter-spacing:-.01em;margin-bottom:12px;}
-  .sec-intro{color:var(--ink-soft);max-width:640px;margin-bottom:44px;}
+  .sec-title{font-family:var(--serif);font-size:44px;line-height:1.18;font-weight:500;letter-spacing:-.025em;margin-bottom:16px;text-align:center;}
+  .sec-intro{color:var(--ink-soft);max-width:700px;margin:0 auto 54px;text-align:center;font-size:15px;line-height:1.85;}
 
   .sub-h{
     font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);
@@ -103,6 +130,10 @@
   .g3{grid-template-columns:1fr 1fr 1fr;}
   .g4{grid-template-columns:repeat(4,1fr);}
   @media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+
+  @media(max-width:1180px){
+    .doc-section{width:calc(100% - 48px);}
+  }
 
   .note{color:var(--ink-faint);font-size:13px;line-height:1.6;}
 
@@ -200,31 +231,11 @@
   .donts li{font-size:13.5px;color:var(--ink-soft);padding-left:22px;position:relative;}
   .donts li::before{content:"×";position:absolute;left:0;color:#A5806E;font-weight:700;}
 </style>
-</head>
-<body>
 
-<header class="doc-header">
-  <div class="brandline">
-    <svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-label="HelpMeBe.Me symbol">
-      <path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="34.6" cy="13.4" r="2.7" fill="#3E5C52"/>
-    </svg>
-    <h1>HelpMeBe.Me</h1>
-  </div>
-  <div class="meta">Philosophy &amp; Strategy · Brand · Design System · Wireframes · GTM<br>V1.3 &nbsp;·&nbsp; July 2026 &nbsp;·&nbsp; Founder memo fully integrated — philosophy · strategy · GTM &amp; validation</div>
-</header>
-<p class="doc-tagline">A private mirror for your time. — 自动记录，诚实回顾，有意记住。</p>
+<SiteHeader />
+<SectionNav client:only="react" />
 
-<nav class="top-nav">
-  <div class="top-nav-inner">
-    <button class="active" data-sec="sec-why">⓪ 产品理念 Why</button>
-    <button data-sec="sec-logo">① 品牌标识 Logo</button>
-    <button data-sec="sec-ds">② 设计系统 Design System</button>
-    <button data-sec="sec-wf">③ 产品设计稿 Wireframes</button>
-    <button data-sec="sec-gtm">④ 市场与验证 GTM</button>
-  </div>
-</nav>
-
+<main id="content">
 <!-- ================= SECTION 0 : WHY ================= -->
 <section class="doc-section active" id="sec-why">
   <div class="sec-label">00 · Why HelpMeBe.Me</div>
@@ -555,7 +566,7 @@
   </div>
 </section>
 
-<style>
+<style is:global>
   /* ============ Design system section ============ */
   .swatch{padding:0;overflow:hidden;}
   .swatch .chip{height:88px;}
@@ -740,7 +751,7 @@
     </div>
   </div>
 
-  <style>
+  <style is:global>
     .st-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 11px;border-radius:8px;}
     .st-suggested{background:#F0EBE0;color:#8A7B54;}
     .st-review{background:none;border:1.5px dashed #B8B3AB;color:#8A857B;}
@@ -802,7 +813,7 @@
 </section>
 <!-- PLACEHOLDER-DS-END -->
 
-<style>
+<style is:global>
   /* ============ Wireframes section ============ */
   .wf-switch{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
   .wf-switch button{
@@ -991,6 +1002,33 @@
   .stage-card .st-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;}
   .stage-card .st-quote{font-family:var(--serif);font-size:16.5px;line-height:1.6;}
   .stage-inner{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
+
+  @media(max-width:720px){
+    .docs-nav-shell{top:8px;padding:0 12px;margin-top:-24px;}
+    .docs-nav-frame{border-radius:16px;}
+    .doc-section{padding:38px 24px 60px;}
+    .sec-title{font-size:29px;line-height:1.25;}
+    .sec-intro{margin-bottom:32px;}
+    .why-hero{padding:40px 24px;}
+    .why-hero .wh-line{font-size:24px;}
+    .logo-hero{padding:56px 24px;}
+    .lockup{flex-direction:column;text-align:center;}
+    .lockup .wordmark{font-size:34px;}
+    .prin-row,.msg-step,.bx-row,.ladder-row,.type-row,.refl-row{flex-direction:column;gap:6px;}
+    .prin-row b,.msg-step .mt,.bx-row b,.ladder-row b,.type-spec,.refl-row .rk{width:auto;}
+    .app-body{min-height:0;flex-direction:column;}
+    .app-side{width:100%;border-right:0;border-bottom:1px solid var(--line);padding:14px 12px;}
+    .side-brand{padding-bottom:10px;}
+    .side-nav{flex-direction:row;overflow-x:auto;padding-bottom:3px;}
+    .side-nav a{flex-shrink:0;}
+    .side-foot{display:none;}
+    .app-main{padding:26px 18px 32px;}
+    .tl{padding-left:66px;}
+    .tl::before{left:52px;}
+    .tl-time{left:-70px;width:48px;}
+    .tl-actions{position:static;opacity:1;flex-basis:100%;box-shadow:none;}
+    .ph-table{display:block;overflow-x:auto;}
+  }
 </style>
 
 <!-- ================= SECTION 3 : WIREFRAMES (V1.1) ================= -->
@@ -1048,7 +1086,7 @@
         </div>
       </aside>
 
-      <main class="app-main">
+      <div class="app-main">
 
         <!-- ============ TODAY (two layers) ============ -->
         <div class="wf-view active" id="v-today">
@@ -1079,10 +1117,10 @@
             <div class="im-candidate" id="mem1">
               <p>Defined the first privacy-first MVP for HelpMeBe.Me.</p>
               <div class="mem-acts">
-                <button class="btn btn-primary" onclick="memKeep('mem1')">Keep as memory</button>
+                <button class="btn btn-primary" data-action="memory-keep" data-target="mem1">Keep as memory</button>
                 <button class="btn btn-secondary">Edit</button>
-                <button class="btn btn-ghost" onclick="memSkip('mem1')">Not this one</button>
-                <button class="why-toggle" style="margin-left:8px;" onclick="toggleWhy('imwhy1')">Why this?</button>
+                <button class="btn btn-ghost" data-action="memory-skip" data-target="mem1">Not this one</button>
+                <button class="why-toggle" style="margin-left:8px;" data-action="toggle-panel" data-target="imwhy1" aria-controls="imwhy1" aria-expanded="false">Why this?</button>
               </div>
               <span class="saved-flag">✓ Saved to Memories · You can change or delete it at any time</span>
               <div class="tl-why" id="imwhy1"><b>Why this suggestion</b><span class="tag-fact" style="margin-right:8px;">FACT</span>From: HelpMeBe.Me product planning · 09:45–10:53 · Confirmed activity, no inference involved. 来源与事实类型只在这一层展示，默认层只回答一个问题：这件事值得留下吗。</div>
@@ -1091,10 +1129,10 @@
               <div class="im-candidate" id="mem2">
                 <p>Spent 68 uninterrupted minutes clarifying the product direction.</p>
                 <div class="mem-acts">
-                  <button class="btn btn-primary" onclick="memKeep('mem2')">Keep</button>
+                  <button class="btn btn-primary" data-action="memory-keep" data-target="mem2">Keep</button>
                   <button class="btn btn-secondary">Edit</button>
-                  <button class="btn btn-ghost" onclick="memSkip('mem2')">Not this one</button>
-                  <button class="why-toggle" style="margin-left:8px;" onclick="toggleWhy('imwhy2')">Why this?</button>
+                  <button class="btn btn-ghost" data-action="memory-skip" data-target="mem2">Not this one</button>
+                  <button class="why-toggle" style="margin-left:8px;" data-action="toggle-panel" data-target="imwhy2" aria-controls="imwhy2" aria-expanded="false">Why this?</button>
                 </div>
                 <span class="saved-flag">✓ Saved to Memories · You can change or delete it at any time</span>
                 <div class="tl-why" id="imwhy2"><b>Why this suggestion</b><span class="tag-fact" style="margin-right:8px;">FACT</span>From: today's longest uninterrupted activity.</div>
@@ -1102,23 +1140,23 @@
               <div class="im-candidate" id="mem3">
                 <p>Decided not to make HelpMeBe.Me a habit tracker.</p>
                 <div class="mem-acts">
-                  <button class="btn btn-primary" onclick="memKeep('mem3')">Keep</button>
+                  <button class="btn btn-primary" data-action="memory-keep" data-target="mem3">Keep</button>
                   <button class="btn btn-secondary">Edit</button>
-                  <button class="btn btn-ghost" onclick="memSkip('mem3')">Not this one</button>
-                  <button class="why-toggle" style="margin-left:8px;" onclick="toggleWhy('imwhy3')">Why this?</button>
+                  <button class="btn btn-ghost" data-action="memory-skip" data-target="mem3">Not this one</button>
+                  <button class="why-toggle" style="margin-left:8px;" data-action="toggle-panel" data-target="imwhy3" aria-controls="imwhy3" aria-expanded="false">Why this?</button>
                 </div>
                 <span class="saved-flag">✓ Saved to Memories · You can change or delete it at any time</span>
                 <div class="tl-why" id="imwhy3"><b>Why this suggestion</b><span class="tag-inference" style="margin-right:8px;">INFERENCE</span>From: product notes · phrasing suggested, please confirm before keeping.</div>
               </div>
             </div>
-            <button class="see-more" id="see-more" onclick="toggleSugg()">See other suggestions (2) ▾</button>
+            <button class="see-more" id="see-more" data-action="toggle-suggestions" aria-controls="sugg-more" aria-expanded="false">See other suggestions (2) ▾</button>
           </div>
 
-          <p class="cv-line">Observed between 9:10 and 17:30&nbsp;·&nbsp;7h 25m recorded&nbsp;·&nbsp;30m not recorded&nbsp;·&nbsp;<button class="see-more" onclick="toggleWhy('cvwhy')">What HelpMeBe.Me could see today ▾</button></p>
+          <p class="cv-line">Observed between 9:10 and 17:30&nbsp;·&nbsp;7h 25m recorded&nbsp;·&nbsp;30m not recorded&nbsp;·&nbsp;<button class="see-more" data-action="toggle-panel" data-target="cvwhy" aria-controls="cvwhy" aria-expanded="false">What HelpMeBe.Me could see today ▾</button></p>
           <div class="tl-why" id="cvwhy" style="margin:-10px 0 20px;"><b>What HelpMeBe.Me could see today</b>Computer activity recorded 7h 25m · Not recorded (you paused) 30m · Unobserved or offline 8h 55m. This may not represent your full day — 线下的家人、散步与思考不在其中，HelpMeBe.Me 不假装看见它们。措辞刻意避免「coverage / 完成度」——这不是一个要填满的进度条。</div>
 
           <div class="today-actions">
-            <button class="btn btn-secondary" id="review-btn" onclick="toggleDetail()">Review details ▾</button>
+            <button class="btn btn-secondary" id="review-btn" data-action="toggle-details" aria-controls="today-detail" aria-expanded="false">Review details ▾</button>
             <span class="note">展开后才出现完整 Timeline、分类与编辑功能</span>
           </div>
 
@@ -1149,7 +1187,7 @@
                   <div class="tl-main"><b>HelpMeBe.Me product planning</b><span>Notion · Figma · ChatGPT · Longest uninterrupted block</span></div>
                   <span class="chip-cat"><i style="background:#5B7186;"></i>Create</span>
                   <span class="st-chip st-suggested">Suggested</span>
-                  <button class="why-toggle" onclick="toggleWhy('tlwhy1')">Why?</button>
+                  <button class="why-toggle" data-action="toggle-panel" data-target="tlwhy1" aria-controls="tlwhy1" aria-expanded="false">Why?</button>
                   <span class="tl-dur">68 min</span>
                   <div class="tl-actions"><button>Confirm</button><button>Edit</button><button>Category</button><button>Merge</button><button>Split</button><button>Private</button><button>Delete</button></div>
                   <div class="tl-why" id="tlwhy1">
@@ -1167,8 +1205,8 @@
                   <span class="tl-dur">35 min</span>
                   <div class="learn-toast" id="learn1">
                     <span class="lt-q">You changed this from Manage to Communicate. Remember this for similar activity?</span>
-                    <button class="primary" onclick="learnDone('learn1')">Yes, learn from this</button>
-                    <button onclick="learnDone('learn1')">Just this time</button>
+                    <button class="primary" data-action="dismiss-learning" data-target="learn1">Yes, learn from this</button>
+                    <button data-action="dismiss-learning" data-target="learn1">Just this time</button>
                   </div>
                 </div>
               </div>
@@ -1287,7 +1325,7 @@
               <div class="rk"><span class="rk-label">WHAT<br>CHANGED</span></div>
               <div class="rv">
                 <p>Time spent creating increased from 4.2 hours to 6.8 hours.</p>
-                <button class="why-link" onclick="toggleWhy('why1')">◦ Why am I seeing this?</button>
+                <button class="why-link" data-action="toggle-panel" data-target="why1" aria-controls="why1" aria-expanded="false">◦ Why am I seeing this?</button>
                 <div class="why-panel" id="why1">
                   <b>Evidence</b>
                   Type: Fact（客观统计，非 AI 推断）。数据周期：Jul 20–26（6 天有效数据）对比 Jul 13–19（7 天有效数据）。口径：分类为 Create 且经确认的 Activity Block 活跃时长合计。主要来源：HelpMeBe.Me product planning（68 min）、wireframe review（54 min）等 11 个 Block。周日下午 3 小时未记录（App 暂停），未计入。
@@ -1298,7 +1336,7 @@
               <div class="rk"><span class="rk-label">WORTH<br>NOTICING</span></div>
               <div class="rv">
                 <p>Communicating still occupied nearly twice as much time as creating — 而你在 Onboarding 中声明，当前最想投入时间的方向是 Create。</p>
-                <button class="why-link" onclick="toggleWhy('why2')">◦ Why am I seeing this?</button>
+                <button class="why-link" data-action="toggle-panel" data-target="why2" aria-controls="why2" aria-expanded="false">◦ Why am I seeing this?</button>
                 <div class="why-panel" id="why2">
                   <b>Evidence &amp; caveat</b>
                   Type: Inference。对比：Communicate 12.4h vs Create 6.8h（比值 1.8）。你声明的方向来自 Onboarding Step 4。这是一条推断：线下的产品思考（散步、白板讨论）无法被记录，实际投入可能更高。不做评价，只是值得你看见。
@@ -1481,7 +1519,7 @@
           </div>
         </div>
 
-      </main>
+      </div>
     </div>
   </div>
 
@@ -1621,47 +1659,82 @@
     <div style="font-family:var(--serif);font-size:17px;color:var(--accent-deep);">如果这个闭环成立，长期的 Memory、Reflection 与 Life Changelog 才有基础；如果不成立，我们也能以极低成本得到明确结论。</div>
   </div>
 </section>
+</main>
 
 <script>
-  // Top-level section tabs
-  const secBtns = document.querySelectorAll('.top-nav button');
-  secBtns.forEach(btn => btn.addEventListener('click', () => {
-    secBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('active'));
-    document.getElementById(btn.dataset.sec).classList.add('active');
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }));
-
   // Wireframe views
-  function showView(id){
-    document.querySelectorAll('.wf-view').forEach(v => v.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.wf-switch button').forEach(b => b.classList.toggle('active', b.dataset.view === id));
-    document.querySelectorAll('.side-nav a').forEach(a => a.classList.toggle('active', a.dataset.view === id));
-  }
-  document.querySelectorAll('.wf-switch button, .side-nav a').forEach(el =>
-    el.addEventListener('click', e => { e.preventDefault(); showView(el.dataset.view); }));
+  function showView(id: string | undefined) {
+    if (!id) return;
 
-  // Today layers
-  function toggleDetail(){
-    const d = document.getElementById('today-detail');
-    const open = d.classList.toggle('open');
-    document.getElementById('review-btn').textContent = open ? 'Hide details ▴' : 'Review details ▾';
-  }
-  function toggleSugg(){
-    const m = document.getElementById('sugg-more');
-    const open = m.classList.toggle('open');
-    document.getElementById('see-more').textContent = open ? 'Show fewer ▴' : 'See other suggestions (2) ▾';
+    const nextView = document.getElementById(id);
+    if (!nextView) return;
+
+    document.querySelectorAll<HTMLElement>('.wf-view').forEach((view) => view.classList.remove('active'));
+    nextView.classList.add('active');
+    document.querySelectorAll<HTMLElement>('.wf-switch [data-view]').forEach((button) =>
+      button.classList.toggle('active', button.dataset.view === id));
+    document.querySelectorAll<HTMLElement>('.side-nav [data-view]').forEach((link) =>
+      link.classList.toggle('active', link.dataset.view === id));
   }
 
-  // Memory candidates
-  function memKeep(id){ const c = document.getElementById(id); c.classList.remove('ignored'); c.classList.add('saved'); }
-  function memSkip(id){ const c = document.getElementById(id); c.classList.remove('saved'); c.classList.add('ignored'); }
+  document.querySelectorAll<HTMLElement>('.wf-switch [data-view], .side-nav [data-view]').forEach((element) =>
+    element.addEventListener('click', (event) => {
+      event.preventDefault();
+      showView(element.dataset.view);
+    }));
 
-  // Learning feedback + evidence
-  function learnDone(id){ document.getElementById(id).classList.add('done'); }
-  function toggleWhy(id){ document.getElementById(id).classList.toggle('open'); }
+  function togglePanel(id: string | undefined, trigger: HTMLElement) {
+    if (!id) return;
+    const panel = document.getElementById(id);
+    if (!panel) return;
+
+    const open = panel.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', String(open));
+  }
+
+  document.addEventListener('click', (event) => {
+    const eventTarget = event.target;
+    if (!(eventTarget instanceof Element)) return;
+
+    const trigger = eventTarget.closest<HTMLElement>('[data-action]');
+    if (!trigger) return;
+
+    const targetId = trigger.dataset.target;
+
+    switch (trigger.dataset.action) {
+      case 'toggle-panel':
+        togglePanel(targetId, trigger);
+        break;
+      case 'toggle-details': {
+        const details = document.getElementById('today-detail');
+        if (!details) break;
+        const open = details.classList.toggle('open');
+        trigger.textContent = open ? 'Hide details ▴' : 'Review details ▾';
+        trigger.setAttribute('aria-expanded', String(open));
+        break;
+      }
+      case 'toggle-suggestions': {
+        const suggestions = document.getElementById('sugg-more');
+        if (!suggestions) break;
+        const open = suggestions.classList.toggle('open');
+        trigger.textContent = open ? 'Show fewer ▴' : 'See other suggestions (2) ▾';
+        trigger.setAttribute('aria-expanded', String(open));
+        break;
+      }
+      case 'memory-keep':
+      case 'memory-skip': {
+        if (!targetId) break;
+        const candidate = document.getElementById(targetId);
+        if (!candidate) break;
+        const shouldKeep = trigger.dataset.action === 'memory-keep';
+        candidate.classList.toggle('saved', shouldKeep);
+        candidate.classList.toggle('ignored', !shouldKeep);
+        break;
+      }
+      case 'dismiss-learning':
+        if (targetId) document.getElementById(targetId)?.classList.add('done');
+        break;
+    }
+  });
 </script>
-</body>
-</html>
+</BaseLayout>

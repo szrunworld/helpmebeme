@@ -1,0 +1,47 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage } = Astro.props;
+const publicSiteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://szrunworld.github.io/helpmebeme/";
+const siteBase = new URL(publicSiteUrl.endsWith("/") ? publicSiteUrl : `${publicSiteUrl}/`);
+const routePath = Astro.url.pathname.replace(/^\/+/, "");
+const canonicalUrl = new URL(routePath, siteBase);
+const socialImageUrl = ogImage ? new URL(ogImage.replace(/^\/+/, ""), siteBase) : undefined;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#faf8f3" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
+    <meta name="twitter:card" content={socialImageUrl ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-paper text-ink antialiased">
+    <a
+      href="#content"
+      class="sr-only fixed top-3 left-3 z-[100] rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white focus:not-sr-only"
+    >
+      跳至主要内容
+    </a>
+    <slot />
+  </body>
+</html>

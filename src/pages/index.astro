@@ -1,0 +1,308 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FaqAccordion from "../components/FaqAccordion";
+import ProductDemo from "../components/ProductDemo";
+
+const steps = [
+  {
+    number: "01",
+    title: "安静地记录",
+    eyebrow: "Capture",
+    copy: "在你授权的范围内整理电脑活动，把零散窗口合并成真正做过的事情。无需手动开始，也无需补写流水账。",
+  },
+  {
+    number: "02",
+    title: "诚实地回顾",
+    eyebrow: "Review",
+    copy: "用十秒看见一天：时间去了哪里、一个值得注意的事实，以及哪些部分 HelpMeBe.Me 无法看见。",
+  },
+  {
+    number: "03",
+    title: "有意地记住",
+    eyebrow: "Remember",
+    copy: "系统可以提出候选记忆，但决定权永远在你手里。只有你确认的事情，才会成为长期 Memory。",
+  },
+] as const;
+
+const boundaries = [
+  ["不是 Habit Tracker", "没有连续打卡、任务清单或完成率。你不需要为了记录而表演。"],
+  ["不是 Productivity Score", "不把工作染成绿色，也不把休息染成红色。事实不等于评价。"],
+  ["不是 Surveillance", "不截图、不记录键盘输入，也不把局部数据包装成对整个人生的结论。"],
+] as const;
+---
+
+<BaseLayout
+  title="HelpMeBe.Me — A private mirror for your time"
+  description="自动看见时间去了哪里，诚实回顾一天，并由你决定什么值得被长期记住。"
+  ogImage="/og.png"
+>
+  <div class="overflow-hidden">
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-line/70 bg-paper/90 backdrop-blur-xl">
+      <div class="mx-auto flex h-18 max-w-[1200px] items-center justify-between px-6 lg:px-10">
+        <a href="./" class="flex items-center gap-3" aria-label="HelpMeBe.Me 首页">
+          <svg width="30" height="30" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="3.4" stroke-linecap="round"></path>
+            <circle cx="34.6" cy="13.4" r="3" fill="#3E5C52"></circle>
+          </svg>
+          <span class="font-serif text-[19px] font-medium tracking-[-0.01em]">HelpMeBe.Me</span>
+        </a>
+
+        <nav class="hidden items-center gap-8 text-sm text-ink-soft md:flex" aria-label="首页导航">
+          <a class="transition-colors hover:text-ink" href="#how-it-works">如何工作</a>
+          <a class="transition-colors hover:text-ink" href="#product">产品体验</a>
+          <a class="transition-colors hover:text-ink" href="#privacy">隐私</a>
+        </nav>
+
+        <a
+          href="./design/#sec-wf"
+          class="rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-accent-deep sm:px-5 sm:text-sm"
+        >
+          查看产品原型
+        </a>
+      </div>
+    </header>
+
+    <main id="content">
+      <section class="relative pt-30 pb-20 sm:pt-36 lg:pt-42 lg:pb-28">
+        <div class="pointer-events-none absolute top-16 left-1/2 -z-10 size-[760px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(62,92,82,0.10)_0%,rgba(250,248,243,0)_68%)]"></div>
+        <div class="mx-auto grid max-w-[1200px] items-center gap-14 px-6 lg:grid-cols-[0.86fr_1.14fr] lg:px-10">
+          <div>
+            <div class="mb-7 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent-faint px-3.5 py-2 text-[11px] font-bold tracking-[0.14em] text-accent-deep uppercase">
+              <span class="size-1.5 rounded-full bg-accent"></span>
+              A private mirror for your time
+            </div>
+            <h1 class="max-w-2xl font-serif text-[clamp(3.2rem,6vw,5.8rem)] leading-[0.97] font-medium tracking-[-0.045em] text-ink">
+              看见时间去了哪里，<span class="text-accent">记住真正重要的事。</span>
+            </h1>
+            <p class="mt-7 max-w-xl text-base leading-8 text-ink-soft sm:text-lg">
+              HelpMeBe.Me 自动整理你允许它看到的时间，让你诚实地回顾自己如何生活，并由你决定什么值得被长期记住。
+            </p>
+            <div class="mt-9 flex flex-wrap items-center gap-3">
+              <a href="#product" class="rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent/15 transition-colors hover:bg-accent-deep">
+                看看一天如何被看见
+              </a>
+              <a href="./design/#sec-why" class="rounded-full border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink-faint">
+                阅读产品理念
+              </a>
+            </div>
+            <p class="mt-6 text-xs leading-6 text-ink-faint">No screenshots · No keystrokes · You choose what becomes a memory</p>
+          </div>
+
+          <div class="relative lg:pl-6">
+            <div class="absolute -top-5 -right-2 z-10 rounded-full border border-line bg-white px-4 py-2 text-xs text-ink-soft shadow-md sm:right-4">
+              <span class="mr-2 inline-block size-2 rounded-full bg-accent"></span>Recording quietly
+            </div>
+            <div class="rotate-[0.6deg] overflow-hidden rounded-[30px] border border-line bg-white shadow-[0_30px_90px_rgba(38,36,31,0.15)]">
+              <div class="flex h-11 items-center gap-2 border-b border-line bg-paper px-5">
+                <span class="size-2.5 rounded-full bg-[#d8d3c8]"></span>
+                <span class="size-2.5 rounded-full bg-[#d8d3c8]"></span>
+                <span class="size-2.5 rounded-full bg-[#d8d3c8]"></span>
+                <span class="mx-auto -translate-x-5 text-[11px] text-ink-faint">HelpMeBe.Me · Today</span>
+              </div>
+              <div class="p-6 sm:p-8 lg:p-9">
+                <p class="text-[11px] font-bold tracking-[0.14em] text-ink-faint uppercase">Sunday, July 26</p>
+                <h2 class="mt-2 font-serif text-2xl font-medium sm:text-[30px]">Where did your time go today?</h2>
+                <p class="mt-6 max-w-lg font-serif text-lg leading-relaxed text-ink-soft sm:text-xl">
+                  Today, most of your recorded time went to <span class="text-create">creating</span> and <span class="text-communicate">communicating</span>.
+                </p>
+
+                <div class="mt-7 grid gap-3 sm:grid-cols-2">
+                  <div class="rounded-2xl border border-line bg-surface-warm p-4">
+                    <p class="text-[10px] font-bold tracking-[0.12em] text-ink-faint uppercase">Where time went</p>
+                    <div class="mt-4 space-y-2.5 text-xs">
+                      <div class="flex items-center"><i class="mr-2 size-2 rounded-sm bg-create"></i>Create <code class="ml-auto font-mono">2h 35m</code></div>
+                      <div class="flex items-center"><i class="mr-2 size-2 rounded-sm bg-communicate"></i>Communicate <code class="ml-auto font-mono">2h 10m</code></div>
+                      <div class="flex items-center text-ink-faint"><i class="mr-2 size-2 rounded-sm bg-line"></i>Everything else <code class="ml-auto font-mono">2h 40m</code></div>
+                    </div>
+                  </div>
+                  <div class="rounded-2xl border border-line bg-surface-warm p-4">
+                    <p class="text-[10px] font-bold tracking-[0.12em] text-ink-faint uppercase">Worth noticing</p>
+                    <p class="mt-4 font-serif text-[15px] leading-relaxed">Your longest uninterrupted activity was 68 minutes of product planning.</p>
+                  </div>
+                </div>
+
+                <div class="mt-3 rounded-2xl border border-accent/15 bg-accent-faint p-4">
+                  <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <p class="text-[10px] font-bold tracking-[0.12em] text-accent uppercase">Worth carrying forward?</p>
+                      <p class="mt-2 font-serif text-[15px]">Defined the first privacy-first MVP.</p>
+                    </div>
+                    <span class="rounded-full bg-accent px-3.5 py-2 text-[11px] font-semibold text-white">Keep as memory</span>
+                  </div>
+                </div>
+                <p class="mt-4 text-[10px] leading-relaxed text-ink-faint">Observed 9:10–17:30 · 7h 25m recorded · 30m not recorded</p>
+              </div>
+            </div>
+            <div class="absolute -bottom-6 -left-2 rounded-2xl border border-line bg-paper px-4 py-3 text-xs leading-relaxed text-ink-soft shadow-md sm:left-0">
+              Raw activity expires in 7 days.<br /><strong class="font-semibold text-ink">Only your Memories remain.</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-y border-line bg-white/60">
+        <div class="mx-auto grid max-w-[1200px] divide-y divide-line px-6 sm:grid-cols-3 sm:divide-x sm:divide-y-0 lg:px-10">
+          <p class="py-6 text-center font-serif text-[15px] text-ink-soft">Record automatically.</p>
+          <p class="py-6 text-center font-serif text-[15px] text-ink-soft">Review honestly.</p>
+          <p class="py-6 text-center font-serif text-[15px] text-ink-soft">Remember intentionally.</p>
+        </div>
+      </section>
+
+      <section class="py-24 sm:py-32">
+        <div class="mx-auto max-w-[1200px] px-6 lg:px-10">
+          <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+            <div>
+              <p class="text-xs font-bold tracking-[0.16em] text-accent uppercase">Why HelpMeBe.Me</p>
+              <h2 class="mt-4 max-w-lg font-serif text-4xl leading-tight font-medium tracking-[-0.025em] sm:text-5xl">
+                你可能不需要另一个效率工具。
+              </h2>
+            </div>
+            <div class="max-w-2xl lg:pt-8">
+              <p class="text-lg leading-8 text-ink-soft">
+                多数人并不缺少建议，也不是不知道该做什么。我们缺少的，是对自己真实行为的可见性。HelpMeBe.Me 不先问「你完成了吗」，而是先回答「你今天实际上做了什么」。
+              </p>
+              <blockquote class="mt-8 border-l-2 border-accent pl-6 font-serif text-2xl leading-relaxed text-ink">
+                Observation before optimization.<br />先观察，再优化。
+              </blockquote>
+            </div>
+          </div>
+
+          <div class="mt-16 grid gap-4 md:grid-cols-3">
+            {boundaries.map(([title, copy], index) => (
+              <article class="rounded-3xl border border-line bg-white p-7 shadow-[0_1px_2px_rgba(38,36,31,0.03)]">
+                <span class="font-mono text-[11px] text-ink-faint">0{index + 1}</span>
+                <h3 class="mt-8 font-serif text-xl font-medium">{title}</h3>
+                <p class="mt-3 text-sm leading-7 text-ink-soft">{copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" class="scroll-mt-24 border-y border-line bg-surface-warm py-24 sm:py-32">
+        <div class="mx-auto max-w-[1200px] px-6 lg:px-10">
+          <div class="max-w-2xl">
+            <p class="text-xs font-bold tracking-[0.16em] text-accent uppercase">How it works</p>
+            <h2 class="mt-4 font-serif text-4xl leading-tight font-medium tracking-[-0.025em] sm:text-5xl">从一天的事实，到一生的记忆。</h2>
+          </div>
+
+          <div class="mt-16 grid gap-0 lg:grid-cols-3">
+            {steps.map((step, index) => (
+              <article class:list={["relative border-line py-8 lg:px-8", index > 0 && "border-t lg:border-t-0 lg:border-l", index === 0 && "lg:pl-0"]}>
+                <div class="flex items-center justify-between">
+                  <span class="font-mono text-xs text-accent">{step.number}</span>
+                  <span class="text-[10px] font-bold tracking-[0.14em] text-ink-faint uppercase">{step.eyebrow}</span>
+                </div>
+                <h3 class="mt-14 font-serif text-2xl font-medium">{step.title}</h3>
+                <p class="mt-4 text-sm leading-7 text-ink-soft">{step.copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="product" class="scroll-mt-16 bg-ink py-24 text-white sm:py-32">
+        <div class="mx-auto max-w-[1200px] px-6 lg:px-10">
+          <div class="mb-14 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <div>
+              <p class="text-xs font-bold tracking-[0.16em] text-[#9bb2a9] uppercase">The product</p>
+              <h2 class="mt-4 max-w-xl font-serif text-4xl leading-tight font-medium tracking-[-0.025em] sm:text-5xl">
+                十秒看见一天，再决定要不要深入。
+              </h2>
+            </div>
+            <p class="max-w-xl text-sm leading-7 text-white/50 lg:justify-self-end">
+              主界面不是数据仪表盘，而是一份安静的私人日报。先给你一句话和一个值得注意的事实；完整时间线、证据与修改功能，只在你需要时出现。
+            </p>
+          </div>
+          <ProductDemo client:visible />
+        </div>
+      </section>
+
+      <section id="privacy" class="scroll-mt-20 py-24 sm:py-32">
+        <div class="mx-auto max-w-[1200px] px-6 lg:px-10">
+          <div class="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-20">
+            <div>
+              <p class="text-xs font-bold tracking-[0.16em] text-accent uppercase">Privacy before intelligence</p>
+              <h2 class="mt-4 font-serif text-4xl leading-tight font-medium tracking-[-0.025em] sm:text-5xl">系统看到的，不等于永久记住。</h2>
+              <p class="mt-6 text-base leading-8 text-ink-soft">
+                HelpMeBe.Me 的智能建立在克制之上。它只整理你允许它看到的部分，也永远不会把局部数据说成你的整个人生。
+              </p>
+              <ul class="mt-8 space-y-4 text-sm text-ink-soft">
+                <li class="flex gap-3"><span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent"></span>默认不保存截图，不记录键盘输入</li>
+                <li class="flex gap-3"><span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent"></span>随时暂停记录，排除应用或删除数据</li>
+                <li class="flex gap-3"><span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent"></span>明确区分事实、推断与无法看见的部分</li>
+              </ul>
+            </div>
+
+            <div class="rounded-[32px] border border-line bg-white p-5 shadow-[0_18px_60px_rgba(38,36,31,0.08)] sm:p-8">
+              <div class="grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+                <div class="rounded-2xl border border-dashed border-ink-faint/45 bg-paper p-6">
+                  <div class="flex items-center justify-between">
+                    <span class="font-serif text-xl font-medium">Activity</span>
+                    <span class="rounded-full bg-line-soft px-2.5 py-1 text-[10px] font-bold text-ink-faint">TEMPORARY</span>
+                  </div>
+                  <p class="mt-6 text-sm leading-7 text-ink-soft">自动收集、可随时修改或删除，用来生成当日回顾。</p>
+                  <p class="mt-7 text-xs text-ink-faint">Expires in 7 days</p>
+                </div>
+                <div class="flex items-center justify-center gap-2 py-1 text-[11px] font-semibold text-accent sm:flex-col">
+                  <span class="h-px w-6 bg-accent/30 sm:h-6 sm:w-px"></span>
+                  You choose
+                  <span class="h-px w-6 bg-accent/30 sm:h-6 sm:w-px"></span>
+                </div>
+                <div class="rounded-2xl border border-accent bg-accent-faint p-6">
+                  <div class="flex items-center justify-between">
+                    <span class="font-serif text-xl font-medium">Memory</span>
+                    <span class="rounded-full bg-accent-soft px-2.5 py-1 text-[10px] font-bold text-accent-deep">YOURS</span>
+                  </div>
+                  <p class="mt-6 text-sm leading-7 text-ink-soft">由你亲自确认，长期保存，并随时可以改变或删除。</p>
+                  <p class="mt-7 text-xs text-accent-deep">Remembered intentionally</p>
+                </div>
+              </div>
+              <p class="mt-6 text-center text-xs leading-6 text-ink-faint">AI 建议的 ≠ 用户事实 · 局部数据 ≠ 整个人生</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-y border-line bg-white py-24 sm:py-32">
+        <div class="mx-auto grid max-w-[1200px] gap-12 px-6 lg:grid-cols-[0.7fr_1.3fr] lg:px-10">
+          <div>
+            <p class="text-xs font-bold tracking-[0.16em] text-accent uppercase">Questions</p>
+            <h2 class="mt-4 font-serif text-4xl font-medium tracking-[-0.025em] sm:text-5xl">在开始之前。</h2>
+          </div>
+          <FaqAccordion client:visible />
+        </div>
+      </section>
+
+      <section class="relative py-28 sm:py-36">
+        <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(62,92,82,0.11)_0%,rgba(250,248,243,0)_62%)]"></div>
+        <div class="mx-auto max-w-4xl px-6 text-center">
+          <svg class="mx-auto" width="52" height="52" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="3" stroke-linecap="round"></path>
+            <circle cx="34.6" cy="13.4" r="2.7" fill="#3E5C52"></circle>
+          </svg>
+          <h2 class="mt-8 font-serif text-5xl leading-tight font-medium tracking-[-0.035em] sm:text-6xl">先看见，再改变。</h2>
+          <p class="mx-auto mt-6 max-w-xl text-base leading-8 text-ink-soft">从一天的真实开始，而不是另一个需要坚持的系统。</p>
+          <div class="mt-9 flex flex-wrap justify-center gap-3">
+            <a href="./design/#sec-wf" class="rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-deep">查看完整产品原型</a>
+            <a href="./design/" class="rounded-full border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink-faint">浏览品牌与产品文档</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-line py-8">
+      <div class="mx-auto flex max-w-[1200px] flex-col gap-4 px-6 text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between lg:px-10">
+        <div class="flex items-center gap-2.5">
+          <svg width="20" height="20" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="3.4" stroke-linecap="round"></path>
+            <circle cx="34.6" cy="13.4" r="3" fill="#3E5C52"></circle>
+          </svg>
+          <span class="font-serif text-sm text-ink">HelpMeBe.Me</span>
+        </div>
+        <p>A private mirror for your time.</p>
+        <a class="transition-colors hover:text-ink" href="./design/">Product & Brand Reference →</a>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>

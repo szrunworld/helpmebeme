@@ -1,0 +1,149 @@
+<header class="docs-header">
+  <div class="docs-header-bar">
+    <a class="docs-home-link" href="../">
+      <span aria-hidden="true">←</span>
+      返回产品首页
+    </a>
+    <div class="docs-version">
+      <span>Product &amp; Brand Reference</span>
+      <i aria-hidden="true"></i>
+      <span>V1.3 · July 2026</span>
+    </div>
+  </div>
+
+  <div class="docs-masthead">
+    <svg width="54" height="54" viewBox="0 0 48 48" fill="none" role="img" aria-label="HelpMeBe.Me symbol">
+      <path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="3" stroke-linecap="round"></path>
+      <circle cx="34.6" cy="13.4" r="2.7" fill="#3E5C52"></circle>
+    </svg>
+    <p class="docs-kicker">HelpMeBe.Me · 产品说明书</p>
+    <h1>Product &amp; Brand Reference</h1>
+    <p class="docs-summary">从产品理念到界面原型，记录我们为何这样设计、如何建立信任，以及产品将走向哪里。</p>
+    <p class="docs-tagline">A private mirror for your time. — 自动记录，诚实回顾，有意记住。</p>
+  </div>
+</header>
+
+<style>
+  .docs-header {
+    border-bottom: 1px solid #e8e4db;
+    background: rgba(250, 248, 243, 0.76);
+  }
+
+  .docs-header-bar {
+    width: min(1040px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 22px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid #e8e4db;
+  }
+
+  .docs-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #57534a;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 160ms ease;
+  }
+
+  .docs-home-link:hover { color: #26241f; }
+
+  .docs-home-link span {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border: 1px solid #e8e4db;
+    border-radius: 999px;
+    background: #fff;
+    font-size: 14px;
+  }
+
+  .docs-version {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #8a857b;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: .04em;
+  }
+
+  .docs-version i {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #b8b3ab;
+  }
+
+  .docs-masthead {
+    width: min(760px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 52px 0 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .docs-kicker {
+    margin-top: 16px;
+    color: #3e5c52;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+
+  .docs-masthead h1 {
+    margin-top: 12px;
+    color: #26241f;
+    font-family: var(--serif);
+    font-size: clamp(38px, 5vw, 58px);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -.035em;
+  }
+
+  .docs-summary {
+    max-width: 610px;
+    margin-top: 20px;
+    color: #57534a;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+  .docs-tagline {
+    margin-top: 18px;
+    color: #8a857b;
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+  }
+
+  @media (max-width: 640px) {
+    .docs-header-bar {
+      width: min(100% - 32px, 1040px);
+      padding: 16px 0;
+    }
+
+    .docs-version span:first-child,
+    .docs-version i { display: none; }
+
+    .docs-masthead {
+      width: min(100% - 40px, 760px);
+      padding: 38px 0 44px;
+    }
+
+    .docs-summary { font-size: 13px; }
+    .docs-tagline { font-size: 14px; }
+  }
+</style>
