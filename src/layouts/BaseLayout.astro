@@ -8,9 +8,14 @@ interface Props {
 }
 
 const { title, description, ogImage } = Astro.props;
-const publicSiteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://szrunworld.github.io/helpmebeme/";
+const publicSiteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://helpmebe.me/";
 const siteBase = new URL(publicSiteUrl.endsWith("/") ? publicSiteUrl : `${publicSiteUrl}/`);
-const routePath = Astro.url.pathname.replace(/^\/+/, "");
+const basePath = import.meta.env.BASE_URL.replace(/^\/+|\/+$/g, "");
+const pagePath = Astro.url.pathname.replace(/^\/+/, "");
+const routePath =
+  basePath && (pagePath === basePath || pagePath.startsWith(`${basePath}/`))
+    ? pagePath.slice(basePath.length).replace(/^\/+/, "")
+    : pagePath;
 const canonicalUrl = new URL(routePath, siteBase);
 const socialImageUrl = ogImage ? new URL(ogImage.replace(/^\/+/, ""), siteBase) : undefined;
 ---
