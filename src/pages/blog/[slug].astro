@@ -1,0 +1,93 @@
+---
+import { getEmDashEntry } from "emdash";
+import { Image, PortableText } from "emdash/ui";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const { entry: post } = slug
+  ? await getEmDashEntry("posts", slug)
+  : { entry: null };
+
+if (!post) {
+  return Astro.redirect("/blog/");
+}
+
+const publishedDate = post.data.publishedAt?.toLocaleDateString("zh-CN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout
+  title={`${post.data.title} — HelpMeBe.Me`}
+  description={post.data.excerpt ?? "HelpMeBe.Me 产品与时间思考。"}
+  ogImage="/og.png"
+>
+  <header class="border-b border-line bg-paper/95">
+    <div class="mx-auto flex h-18 max-w-[820px] items-center justify-between px-6">
+      <a href="/" class="flex items-center gap-3" aria-label="HelpMeBe.Me 首页">
+        <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="3.4" stroke-linecap="round"></path>
+          <circle cx="34.6" cy="13.4" r="3" fill="#3E5C52"></circle>
+        </svg>
+        <span class="font-serif text-[18px] font-medium">HelpMeBe.Me</span>
+      </a>
+      <a class="text-sm text-ink-soft transition-colors hover:text-ink" href="/blog/">← 返回 Blog</a>
+    </div>
+  </header>
+
+  <main id="content">
+    <article class="mx-auto max-w-[760px] px-6 py-20 sm:py-24">
+      <header class="border-b border-line pb-10 text-center">
+        <p class="text-[11px] font-bold tracking-[0.16em] text-accent uppercase">HelpMeBe.Me Journal</p>
+        <h1 class="mx-auto mt-5 max-w-3xl font-serif text-3xl leading-tight font-medium tracking-[-0.025em] sm:text-[38px]">
+          {post.data.title}
+        </h1>
+        {post.data.excerpt && <p class="mx-auto mt-6 max-w-2xl text-sm leading-7 text-ink-soft sm:text-[15px]">{post.data.excerpt}</p>}
+        {post.data.publishedAt && (
+          <time class="mt-5 block text-xs text-ink-faint" datetime={post.data.publishedAt.toISOString()}>{publishedDate}</time>
+        )}
+      </header>
+
+      {post.data.featured_image && (
+        <div class="mt-10 overflow-hidden rounded-3xl border border-line bg-white">
+          <Image image={post.data.featured_image} alt="" />
+        </div>
+      )}
+
+      <div class="article-body mt-12 font-serif text-[17px] leading-8 text-ink-soft">
+        <PortableText value={post.data.content ?? []} />
+      </div>
+    </article>
+  </main>
+
+  <footer class="border-t border-line py-8">
+    <div class="mx-auto flex max-w-[760px] items-center justify-between px-6 text-xs text-ink-faint">
+      <span>© HelpMeBe.Me</span>
+      <a class="transition-colors hover:text-ink" href="/blog/">继续阅读 →</a>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style>
+  .article-body :global(p) { margin: 1.25rem 0; }
+  .article-body :global(h2) {
+    margin: 2.75rem 0 1rem;
+    color: #26241f;
+    font-size: 1.55rem;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+  .article-body :global(h3) {
+    margin: 2.25rem 0 .8rem;
+    color: #26241f;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  .article-body :global(a) { color: #3e5c52; text-decoration: underline; text-underline-offset: 3px; }
+  .article-body :global(blockquote) { margin: 2rem 0; border-left: 2px solid #3e5c52; padding-left: 1.4rem; color: #26241f; }
+  .article-body :global(ul), .article-body :global(ol) { margin: 1.25rem 0; padding-left: 1.5rem; }
+</style>

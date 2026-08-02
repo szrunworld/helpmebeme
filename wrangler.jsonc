@@ -1,0 +1,46 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "helpmebeme",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-08-02",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    {
+      "pattern": "helpmebe.me/*",
+      "zone_name": "helpmebe.me"
+    },
+    {
+      "pattern": "admin.helpmebe.me",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.helpmebe.me",
+      "custom_domain": true
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "helpmebeme-emdash",
+      "database_id": "45d023fe-7473-4ffb-b9e5-0cd77499837d"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "helpmebeme-media"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "793869d027a14557aff34d1ddc1a3f0f"
+    }
+  ],
+  "triggers": {
+    "crons": ["* * * * *"]
+  },
+  "observability": {
+    "enabled": true
+  }
+}

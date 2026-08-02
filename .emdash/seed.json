@@ -1,0 +1,174 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "meta": {
+    "name": "HelpMeBe.Me",
+    "description": "HelpMeBe.Me CMS and blog starter content",
+    "author": "HelpMeBe.Me"
+  },
+  "settings": {
+    "title": "HelpMeBe.Me",
+    "tagline": "A private mirror for your time."
+  },
+  "collections": [
+    {
+      "slug": "posts",
+      "label": "Blog Posts",
+      "labelSingular": "Blog Post",
+      "supports": ["drafts", "revisions", "search", "seo"],
+      "commentsEnabled": false,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "excerpt",
+          "label": "Excerpt",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured Image",
+          "type": "image"
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "searchable": true
+        }
+      ]
+    }
+  ],
+  "taxonomies": [
+    {
+      "name": "category",
+      "label": "Categories",
+      "labelSingular": "Category",
+      "hierarchical": true,
+      "collections": ["posts"],
+      "terms": [
+        {
+          "slug": "product-notes",
+          "label": "Product Notes"
+        },
+        {
+          "slug": "reflection",
+          "label": "Reflection"
+        }
+      ]
+    },
+    {
+      "name": "tag",
+      "label": "Tags",
+      "labelSingular": "Tag",
+      "hierarchical": false,
+      "collections": ["posts"],
+      "terms": [
+        {
+          "slug": "visibility",
+          "label": "Visibility"
+        },
+        {
+          "slug": "privacy",
+          "label": "Privacy"
+        }
+      ]
+    }
+  ],
+  "menus": [
+    {
+      "name": "primary",
+      "label": "Primary Navigation",
+      "items": [
+        {
+          "type": "custom",
+          "label": "Home",
+          "url": "/"
+        },
+        {
+          "type": "custom",
+          "label": "Blog",
+          "url": "/blog/"
+        },
+        {
+          "type": "custom",
+          "label": "Product Design",
+          "url": "/design/"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "posts": [
+      {
+        "id": "welcome-to-helpmebeme",
+        "slug": "welcome-to-helpmebeme",
+        "status": "published",
+        "data": {
+          "title": "看见，是改变的开始",
+          "excerpt": "为什么 HelpMeBe.Me 希望先帮助你看见时间，而不是再给你一套需要坚持的效率系统。",
+          "content": [
+            {
+              "_type": "block",
+              "_key": "intro",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "intro-text",
+                  "text": "我们每天关注太多人、太多事，也不断希望被世界理解，却很少真正停下来看看自己。"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "heading",
+              "style": "h2",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "heading-text",
+                  "text": "先观察，再优化"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "body",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "body-text",
+                  "text": "HelpMeBe.Me 自动整理你允许它看到的时间，让你诚实地回顾自己如何生活，并由你决定什么值得被长期记住。它不提供生产力评分，也不会把休息标记成失败。"
+                }
+              ]
+            },
+            {
+              "_type": "block",
+              "_key": "privacy",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "privacy-text",
+                  "text": "自动整理的 Activity 是临时的；只有你亲自确认的事情，才会成为长期的 Memory。系统看到的，不等于永久记住。"
+                }
+              ]
+            }
+          ]
+        },
+        "taxonomies": {
+          "category": ["product-notes"],
+          "tag": ["visibility", "privacy"]
+        }
+      }
+    ]
+  }
+}
