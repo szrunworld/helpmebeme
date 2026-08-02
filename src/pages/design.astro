@@ -2,6 +2,21 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionNav from "../components/SectionNav";
 import SiteHeader from "../components/SiteHeader.astro";
+import {
+  ArrowRightIcon,
+  BookOpenIcon,
+  ChartBarIcon,
+  CheckCircleIcon,
+  CircleIcon,
+  InfoIcon,
+  LeafIcon,
+  LockKeyIcon,
+  LockSimpleIcon,
+  MinusCircleIcon,
+  QuestionIcon,
+  SunHorizonIcon,
+  TargetIcon,
+} from "@phosphor-icons/react";
 ---
 
 <BaseLayout
@@ -12,7 +27,9 @@ import SiteHeader from "../components/SiteHeader.astro";
   (() => {
     const sections = ['sec-why', 'sec-logo', 'sec-ds', 'sec-wf', 'sec-gtm'];
     const requested = window.location.hash.slice(1);
+    const requestedView = new URLSearchParams(window.location.search).get('view');
     document.documentElement.dataset.docSection = sections.includes(requested) ? requested : 'sec-why';
+    if (requestedView === 'reflection') document.documentElement.dataset.prototypeFocus = 'reflection';
   })();
 </script>
 <style is:global>
@@ -841,6 +858,7 @@ import SiteHeader from "../components/SiteHeader.astro";
   .side-foot{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding:0 4px;}
   .side-foot .pill-status{justify-content:center;font-size:12px;}
   .side-foot .note{text-align:center;font-size:11px;}
+  .side-foot-reflection{display:none;}
 
   .app-main{flex:1;padding:36px 44px 44px;overflow:hidden;}
   .wf-view{display:none;animation:fadein .25s ease;}
@@ -946,31 +964,113 @@ import SiteHeader from "../components/SiteHeader.astro";
   .memitem p{font-family:var(--serif);font-size:15px;line-height:1.6;}
   .memitem .mi-meta{font-size:11.5px;color:var(--ink-faint);margin-top:4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 
-  /* ---- Reflection ---- */
-  .refl-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
-  .refl-row{padding:20px 26px;border-bottom:1px solid var(--line-soft);display:flex;gap:18px;}
-  .refl-row:last-child{border-bottom:none;}
-  .refl-row .rk{width:110px;flex-shrink:0;padding-top:2px;}
-  .refl-row .rv{flex:1;}
-  .refl-row .rv p{font-family:var(--serif);font-size:15.5px;line-height:1.7;}
-  .refl-theme{background:var(--surface-warm);}
-  .refl-theme .rv .theme-line{font-family:var(--serif);font-size:22px;line-height:1.5;margin-bottom:4px;}
-  .refl-theme .rv .theme-sub{font-size:13px;color:var(--ink-soft);font-family:var(--sans);}
-  .rk-label{font-size:11px;letter-spacing:.08em;font-weight:700;color:var(--ink-faint);}
-  .why-link{font-size:12px;color:var(--accent-deep);cursor:pointer;border:none;background:none;font-family:var(--sans);padding:0;margin-top:8px;display:inline-flex;align-items:center;gap:5px;}
-  .why-link:hover{text-decoration:underline;}
-  .why-panel{display:none;margin-top:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 18px;font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
-  .why-panel.open{display:block;}
-  .why-panel b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;}
-  .delta-bars{display:flex;flex-direction:column;gap:10px;margin-top:12px;max-width:440px;}
-  .delta-bars .db{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--ink-soft);}
-  .delta-bars .db span{width:104px;flex-shrink:0;}
-  .delta-bars .db .track{flex:1;height:8px;background:var(--line-soft);border-radius:4px;overflow:hidden;}
-  .delta-bars .db .track b{display:block;height:100%;border-radius:4px;}
-  .delta-bars .db code{font-family:var(--mono);font-size:11px;color:var(--ink-faint);width:56px;}
-  .refl-memline{display:flex;align-items:flex-start;gap:10px;padding:5px 0;font-family:var(--serif);font-size:14.5px;}
-  .refl-question{background:var(--accent-faint);border-top:1px solid #DCE5DD !important;}
-  .refl-question .rv p{font-size:17px;}
+  /* ---- Weekly Mirror · Weekend Letter ---- */
+  #sec-wf{max-width:1480px;padding-left:52px;padding-right:52px;}
+  .app-frame[data-active-view="v-reflection"]{
+    --mirror-display:28px;
+    --mirror-title:22px;
+    --mirror-body:15px;
+    --mirror-ui:13.5px;
+    --mirror-caption:12.5px;
+    --mirror-numeric:13px;
+    background:var(--surface-warm);box-shadow:0 18px 56px rgba(38,36,31,.11);
+  }
+  .app-frame[data-active-view="v-reflection"] .app-titlebar{display:none;}
+  .app-frame[data-active-view="v-reflection"] .app-body{min-height:900px;}
+  .app-frame[data-active-view="v-reflection"] .app-side{width:294px;padding:53px 18px 63px;}
+  .app-frame[data-active-view="v-reflection"] .side-brand{padding:0 34px 30px;gap:18px;}
+  .app-frame[data-active-view="v-reflection"] .side-brand svg{width:32px;height:32px;}
+  .app-frame[data-active-view="v-reflection"] .side-brand span{font-size:17px;}
+  .app-frame[data-active-view="v-reflection"] .side-nav{width:204px;gap:15px;margin:36px 0 0 14px;}
+  .app-frame[data-active-view="v-reflection"] .side-nav a{gap:26px;padding:19px 22px;border-radius:99px;font-size:var(--mirror-ui);line-height:1.2;}
+  .app-frame[data-active-view="v-reflection"] .side-nav a.active{background:rgba(233,239,234,.9);}
+  .app-frame[data-active-view="v-reflection"] .side-foot{align-items:flex-start;padding:0 34px;gap:8px;}
+  .app-frame[data-active-view="v-reflection"] .side-foot .pill-status{justify-content:flex-start;padding:0;background:transparent;border:0;}
+  .app-frame[data-active-view="v-reflection"] .side-foot .note{text-align:left;}
+  .app-frame[data-active-view="v-reflection"] .side-foot .pill-status{font-size:var(--mirror-caption);}
+  .app-frame[data-active-view="v-reflection"] .side-foot .note{font-size:11.5px;}
+  .app-frame[data-active-view="v-reflection"] .side-foot-default{display:none;}
+  .app-frame[data-active-view="v-reflection"] .side-foot-reflection{display:inline;}
+  .app-frame[data-active-view="v-reflection"] .app-main{padding:48px 82px 36px 70px;}
+
+  .mirror-letter{max-width:1030px;margin:0;color:var(--ink);}
+  .mirror-head{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;margin-bottom:68px;}
+  .mirror-kicker{font-size:var(--mirror-caption);line-height:1;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:750;margin-bottom:11px;}
+  .mirror-period{font-family:var(--serif);font-size:var(--mirror-title);line-height:1.15;font-weight:500;letter-spacing:-.012em;}
+  .mirror-days{font-size:var(--mirror-caption);color:var(--ink-faint);margin-top:8px;}
+  .mirror-private{display:flex;align-items:flex-start;gap:10px;color:var(--ink-faint);font-size:var(--mirror-caption);line-height:1.55;text-align:left;padding-top:4px;}
+  .mirror-private svg{margin-top:1px;flex-shrink:0;}
+
+  .mirror-hero h3{font-family:var(--serif);font-size:var(--mirror-display);line-height:1.18;font-weight:500;letter-spacing:-.02em;margin:0;max-width:920px;}
+  .mirror-summary{font-family:var(--serif);font-size:var(--mirror-body);line-height:1.65;color:var(--ink-soft);margin-top:16px;max-width:900px;}
+  .mirror-distribution{display:grid;grid-template-columns:1.95fr 1.6fr 1.3fr 1fr;gap:8px;max-width:990px;margin-top:36px;padding-bottom:0;}
+  .mirror-stat-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;color:var(--mirror-category);font-size:var(--mirror-ui);font-weight:600;}
+  .mirror-stat-head code{font-family:var(--mono);font-size:var(--mirror-numeric);font-weight:500;white-space:nowrap;}
+  .mirror-stat-line{height:7px;border-radius:99px;background:color-mix(in srgb,var(--mirror-category) 88%,white);margin-top:12px;}
+
+  .mirror-insight{display:grid;grid-template-columns:90px minmax(0,1fr);gap:29px;padding:64px 0 33px;border-bottom:1px solid var(--line);}
+  .mirror-icon{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent);}
+  .mirror-insight h4{font-family:var(--serif);font-size:var(--mirror-title);line-height:1.35;font-weight:500;letter-spacing:-.012em;max-width:690px;}
+  .mirror-feedback{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:26px 0 0 -113px;}
+  .mirror-feedback button{appearance:none;border:0;border-right:1px solid var(--line);background:transparent;color:var(--accent);font-family:var(--sans);font-size:var(--mirror-ui);line-height:1;cursor:pointer;padding:6px 20px;display:inline-flex;align-items:center;gap:7px;transition:color .16s,background .16s;}
+  .mirror-feedback button:first-child{padding-left:0;}
+  .mirror-feedback button:last-child{border-right:0;}
+  .mirror-feedback button:hover{color:var(--accent-deep);}
+  .mirror-feedback button:last-child{text-decoration:underline dotted;text-decoration-color:rgba(62,92,82,.55);text-underline-offset:5px;}
+  .mirror-feedback button.active{color:var(--accent-deep);font-weight:650;}
+  .mirror-feedback button:focus-visible{border-radius:6px;}
+  .mirror-evidence{display:none;margin-top:20px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px 18px;font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
+  .mirror-evidence.open{display:block;}
+  .mirror-evidence b{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+  .mirror-context-form{display:none;margin-top:18px;max-width:620px;}
+  .mirror-context-form.open{display:block;}
+  .mirror-context-form label{display:block;font-size:12px;color:var(--ink-soft);margin-bottom:7px;}
+  .mirror-context-form textarea{width:100%;min-height:82px;resize:vertical;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--ink);font:var(--mirror-body)/1.65 var(--sans);padding:11px 13px;}
+  .mirror-context-form button{margin-top:9px;}
+
+  .mirror-row{display:grid;grid-template-columns:205px minmax(0,1fr);gap:28px;align-items:start;padding:28px 0;border-bottom:1px solid var(--line);}
+  .mirror-row-label{display:flex;align-items:center;gap:14px;color:var(--accent);font-size:11.5px;font-weight:750;letter-spacing:.12em;text-transform:uppercase;padding-top:3px;}
+  .mirror-row-label .mirror-mini-icon{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);flex-shrink:0;}
+  .mirror-row-copy{font-family:var(--serif);font-size:var(--mirror-body);line-height:1.65;}
+  .mirror-row-note{font-family:var(--sans);font-size:var(--mirror-caption);line-height:1.55;color:var(--ink-faint);margin-top:3px;}
+  .mirror-carry{padding-top:24px;padding-bottom:25px;}
+  .mirror-carry .mirror-row-copy{font-size:var(--mirror-title);line-height:1.45;}
+  .mirror-actions{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-top:24px;}
+  .mirror-primary{appearance:none;border:1px solid var(--accent);border-radius:99px;background:var(--accent);color:#fff;font:650 var(--mirror-ui)/1 var(--sans);padding:17px 38px;cursor:pointer;box-shadow:0 6px 16px rgba(62,92,82,.15);transition:background .16s,transform .16s,box-shadow .16s;}
+  .mirror-primary:hover{background:var(--accent-deep);transform:translateY(-1px);box-shadow:0 8px 20px rgba(62,92,82,.2);}
+  .mirror-primary.saved{background:var(--accent-deep);}
+  .mirror-secondary{appearance:none;border:0;background:transparent;color:var(--accent);font:500 var(--mirror-ui)/1 var(--sans);padding:8px 5px;cursor:pointer;text-decoration:underline;text-decoration-color:rgba(62,92,82,.35);text-underline-offset:4px;}
+  .mirror-secondary:hover,.mirror-secondary.active{color:var(--accent-deep);text-decoration-color:var(--accent-deep);}
+  .mirror-action-note{font-family:var(--sans);font-size:var(--mirror-caption);color:var(--ink-faint);margin-top:14px;}
+  .mirror-status{display:block;min-height:19px;font-family:var(--sans);font-size:12px;color:var(--accent-deep);margin-top:9px;}
+  .mirror-status:empty{display:none;}
+  .mirror-coverage{display:flex;align-items:center;gap:10px;color:var(--ink-faint);font-size:var(--mirror-caption);line-height:1.55;padding-top:30px;}
+  .mirror-coverage svg{flex-shrink:0;}
+
+  html[data-prototype-focus="reflection"] body{background:var(--surface-warm);background-image:none;}
+  html[data-prototype-focus="reflection"] body > header,
+  html[data-prototype-focus="reflection"] .docs-nav-shell{display:none !important;}
+  html[data-prototype-focus="reflection"] #content{margin:0;}
+  html[data-prototype-focus="reflection"] #content .doc-section{display:none !important;}
+  html[data-prototype-focus="reflection"] #content #sec-wf{display:block !important;width:100%;max-width:none;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;background:var(--surface-warm);}
+  html[data-prototype-focus="reflection"] #sec-wf > :not(.app-frame){display:none !important;}
+  html[data-prototype-focus="reflection"] .app-frame{min-height:100vh;border:0;border-radius:0;box-shadow:none;}
+  html[data-prototype-focus="reflection"] .app-frame[data-active-view="v-reflection"] .app-body{min-height:100vh;}
+  html[data-prototype-focus="reflection"] .app-frame[data-active-view="v-reflection"] .app-main{padding-top:54px;}
+
+  @media(max-width:1080px){
+    .app-frame[data-active-view="v-reflection"]{--mirror-display:27px;--mirror-title:21px;}
+    .app-frame[data-active-view="v-reflection"] .app-side{width:210px;}
+    .app-frame[data-active-view="v-reflection"] .app-main{padding-left:38px;padding-right:38px;}
+    .mirror-row{grid-template-columns:174px minmax(0,1fr);}
+  }
+  @media(max-width:820px){
+    #sec-wf{padding-left:24px;padding-right:24px;}
+    .mirror-head{margin-bottom:38px;}
+    .mirror-distribution{grid-template-columns:1fr 1fr;}
+    .mirror-feedback{margin-left:0;}
+    .mirror-row{grid-template-columns:1fr;gap:14px;}
+  }
 
   /* ---- Privacy ---- */
   .priv-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
@@ -1023,6 +1123,24 @@ import SiteHeader from "../components/SiteHeader.astro";
     .side-nav a{flex-shrink:0;}
     .side-foot{display:none;}
     .app-main{padding:26px 18px 32px;}
+    .app-frame[data-active-view="v-reflection"] .app-side{width:100%;padding:14px 12px;}
+    .app-frame[data-active-view="v-reflection"]{--mirror-display:25px;--mirror-title:20px;}
+    .app-frame[data-active-view="v-reflection"] .app-main{padding:26px 18px 32px;}
+    .app-frame[data-active-view="v-reflection"] .side-brand{padding:0 10px 10px;gap:9px;}
+    .app-frame[data-active-view="v-reflection"] .side-brand svg{width:24px;height:24px;}
+    .app-frame[data-active-view="v-reflection"] .side-nav{width:100%;justify-content:space-between;gap:2px;margin:0;}
+    .app-frame[data-active-view="v-reflection"] .side-nav a{gap:5px;padding:8px 7px;font-size:12px;}
+    .app-frame[data-active-view="v-reflection"] .side-nav a svg{width:16px;height:16px;}
+    .mirror-head{flex-direction:column;gap:14px;margin-bottom:32px;}
+    .mirror-private{text-align:left;}
+    .mirror-distribution{grid-template-columns:1fr;gap:15px;}
+    .mirror-insight{grid-template-columns:1fr;gap:18px;padding:30px 0;}
+    .mirror-desktop-break{display:none;}
+    .mirror-feedback{align-items:flex-start;gap:8px 12px;}
+    .mirror-feedback button{border-right:0;padding:6px 0;}
+    .mirror-row{grid-template-columns:1fr;gap:14px;padding:24px 0;}
+    .mirror-actions{align-items:flex-start;flex-direction:column;gap:8px;}
+    .mirror-coverage{align-items:flex-start;}
     .tl{padding-left:66px;}
     .tl::before{left:52px;}
     .tl-time{left:-70px;width:48px;}
@@ -1033,9 +1151,9 @@ import SiteHeader from "../components/SiteHeader.astro";
 
 <!-- ================= SECTION 3 : WIREFRAMES (V1.1) ================= -->
 <section class="doc-section" id="sec-wf">
-  <div class="sec-label">03 · Product Wireframes · V1.3</div>
+  <div class="sec-label">03 · Product Wireframes · V1.4</div>
   <h2 class="sec-title">四个核心页面 + 首次体验</h2>
-  <p class="sec-intro">V1.2 按第二轮评审收敛：分类改用生活语言（Create / Communicate / Learn / Manage / Rest &amp; Enjoy）；Today 首屏收敛为「一句话 + 两块 + 一行可见性说明」；Something worth noticing 每日动态轮换而非固定 KPI；候选记忆默认只保留内容与选择；Reflection 第 7 天渐进解锁；Privacy 页按四组重构。</p>
+  <p class="sec-intro">V1.4 将 Reflection 收敛为「周末来信」：沿一条编辑化阅读路径呈现本周事实、最多一条洞察及纠正入口、Current Focus 与单个 Weekly Experiment；证据按需展开，「继续观察」与采取实验同等正当。</p>
 
   <div class="card" style="padding:24px 32px;margin-bottom:26px;">
     <div class="why-quote" style="margin:0 0 12px;">
@@ -1060,7 +1178,7 @@ import SiteHeader from "../components/SiteHeader.astro";
     <div class="app-body">
       <aside class="app-side">
         <div class="side-brand">
-          <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+          <svg width="32" height="32" viewBox="6 6 36 36" fill="none">
             <path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="3.4" stroke-linecap="round"/>
             <circle cx="34.6" cy="13.4" r="3" fill="#3E5C52"/>
           </svg>
@@ -1068,21 +1186,22 @@ import SiteHeader from "../components/SiteHeader.astro";
         </div>
         <nav class="side-nav">
           <a class="active" data-view="v-today">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            <CircleIcon size={20} weight="regular" aria-hidden="true" />
             Today</a>
           <a data-view="v-memories">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2.5h8v11l-4-2.6-4 2.6v-11z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            <BookOpenIcon size={20} weight="regular" aria-hidden="true" />
             Memories</a>
           <a data-view="v-reflection">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 13.5v-4M8 13.5V6.5M13.5 13.5V3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-            Reflection<span style="margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.05em;background:var(--accent-soft);color:var(--accent-deep);padding:2px 7px;border-radius:99px;">DAY 7+</span></a>
+            <LeafIcon size={20} weight="regular" aria-hidden="true" />
+            Reflection</a>
           <a data-view="v-privacy">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.8l5 2v3.4c0 3.2-2.1 5.6-5 7-2.9-1.4-5-3.8-5-7V3.8l5-2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            <LockKeyIcon size={20} weight="regular" aria-hidden="true" />
             Privacy</a>
         </nav>
         <div class="side-foot">
-          <span class="pill-status pill-rec"><span class="pulse"></span>Recording</span>
-          <span class="note">No screenshots · No keystrokes<br>Raw activity expires in 7 days</span>
+          <span class="pill-status pill-rec"><span class="pulse"></span><span class="side-foot-default">Recording</span><span class="side-foot-reflection">Recording quietly</span></span>
+          <span class="note side-foot-default">No screenshots · No keystrokes<br>Raw activity expires in 7 days</span>
+          <span class="note side-foot-reflection">Your data stays private</span>
         </div>
       </aside>
 
@@ -1293,71 +1412,97 @@ import SiteHeader from "../components/SiteHeader.astro";
 
         <!-- ============ REFLECTION ============ -->
         <div class="wf-view" id="v-reflection">
-          <div style="display:flex;align-items:center;gap:11px;background:var(--accent-faint);border:1px solid #DCE5DD;border-radius:12px;padding:11px 16px;margin-bottom:22px;font-size:13px;">
-            <svg width="16" height="16" viewBox="0 0 48 48" fill="none"><path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="3.4" stroke-linecap="round"/><circle cx="34.6" cy="13.4" r="3" fill="#3E5C52"/></svg>
-            <span><b>Your first week is ready.</b>&nbsp; Reflection just joined your sidebar — it appears on day 7, once there is enough of your life to reflect on.</span>
-          </div>
-          <div class="v-date">Week of July 20 – 26 · Based on 6 recorded days</div>
-          <div class="v-title">What changed this week?</div>
-          <div class="v-sub">One card, once a week. No scores. Facts and confirmed memories only.</div>
+          <div class="mirror-letter">
+            <header class="mirror-head">
+              <div>
+                <div class="mirror-kicker">Weekly Mirror</div>
+                <div class="mirror-period">July 27 – August 2</div>
+                <div class="mirror-days">6 recorded days</div>
+              </div>
+              <div class="mirror-private">
+                <LockSimpleIcon size={18} weight="regular" aria-hidden="true" />
+                <span>Private to you.<br />Only you can see this.</span>
+              </div>
+            </header>
 
-          <div class="refl-card">
-            <div class="refl-row refl-theme">
-              <div class="rk"><span class="rk-label">THIS WEEK<br>FELT LIKE</span></div>
-              <div class="rv">
-                <div class="theme-line">A week of creating and transition.</div>
-                <div class="theme-sub">You spent this week moving between product thinking and operational communication.</div>
-              </div>
-            </div>
-            <div class="refl-row">
-              <div class="rk"><span class="rk-label">WHAT<br>HAPPENED</span></div>
-              <div class="rv">
-                <p>Most of your recorded computer time went to communicating and creating.</p>
-                <div class="delta-bars">
-                  <div class="db"><span>Communicate</span><div class="track"><b style="width:78%;background:#B98F5F;"></b></div><code>12.4 h</code></div>
-                  <div class="db"><span>Create</span><div class="track"><b style="width:43%;background:#5B7186;"></b></div><code>6.8 h</code></div>
-                  <div class="db"><span>Learn</span><div class="track"><b style="width:26%;background:#7E9377;"></b></div><code>4.1 h</code></div>
-                  <div class="db"><span>Manage</span><div class="track"><b style="width:20%;background:#A59E93;"></b></div><code>3.2 h</code></div>
+            <section class="mirror-hero" aria-labelledby="mirror-title">
+              <h3 id="mirror-title">A week of creating and transition.</h3>
+              <p class="mirror-summary">Most of your recorded computer time went to communicating and creating.</p>
+
+              <div class="mirror-distribution" aria-label="Recorded computer time by category">
+                <div class="mirror-stat" style="--mirror-category:#B98F5F;">
+                  <div class="mirror-stat-head"><span>Communicate</span><code>12.4 h</code></div>
+                  <div class="mirror-stat-line" aria-hidden="true"></div>
+                </div>
+                <div class="mirror-stat" style="--mirror-category:#5B7186;">
+                  <div class="mirror-stat-head"><span>Create</span><code>6.8 h</code></div>
+                  <div class="mirror-stat-line" aria-hidden="true"></div>
+                </div>
+                <div class="mirror-stat" style="--mirror-category:#7E9377;">
+                  <div class="mirror-stat-head"><span>Learn</span><code>4.1 h</code></div>
+                  <div class="mirror-stat-line" aria-hidden="true"></div>
+                </div>
+                <div class="mirror-stat" style="--mirror-category:#A59E93;">
+                  <div class="mirror-stat-head"><span>Manage</span><code>3.2 h</code></div>
+                  <div class="mirror-stat-line" aria-hidden="true"></div>
                 </div>
               </div>
-            </div>
-            <div class="refl-row">
-              <div class="rk"><span class="rk-label">WHAT<br>CHANGED</span></div>
-              <div class="rv">
-                <p>Time spent creating increased from 4.2 hours to 6.8 hours.</p>
-                <button class="why-link" data-action="toggle-panel" data-target="why1" aria-controls="why1" aria-expanded="false">◦ Why am I seeing this?</button>
-                <div class="why-panel" id="why1">
-                  <b>Evidence</b>
-                  Type: Fact（客观统计，非 AI 推断）。数据周期：Jul 20–26（6 天有效数据）对比 Jul 13–19（7 天有效数据）。口径：分类为 Create 且经确认的 Activity Block 活跃时长合计。主要来源：HelpMeBe.Me product planning（68 min）、wireframe review（54 min）等 11 个 Block。周日下午 3 小时未记录（App 暂停），未计入。
+            </section>
+
+            <section class="mirror-insight" aria-labelledby="mirror-insight-title">
+              <div class="mirror-icon"><SunHorizonIcon size={44} weight="regular" aria-hidden="true" /></div>
+              <div>
+                <h4 id="mirror-insight-title">Your three longest uninterrupted<br class="mirror-desktop-break" /> periods all happened before noon.</h4>
+                <div class="mirror-feedback" aria-label="Respond to this insight">
+                  <button type="button" data-action="mirror-feedback" data-feedback="true" aria-pressed="false"><CheckCircleIcon size={20} weight="regular" aria-hidden="true" />This feels true</button>
+                  <button type="button" data-action="mirror-feedback" data-feedback="not-quite" aria-pressed="false"><MinusCircleIcon size={20} weight="regular" aria-hidden="true" />Not quite</button>
+                  <button type="button" data-action="mirror-feedback" data-feedback="missing-context" aria-pressed="false"><QuestionIcon size={20} weight="regular" aria-hidden="true" />Missing context</button>
+                  <button type="button" data-action="toggle-panel" data-target="mirror-evidence" aria-controls="mirror-evidence" aria-expanded="false"><ChartBarIcon size={20} weight="regular" aria-hidden="true" />Why am I seeing this?</button>
                 </div>
-              </div>
-            </div>
-            <div class="refl-row">
-              <div class="rk"><span class="rk-label">WORTH<br>NOTICING</span></div>
-              <div class="rv">
-                <p>Communicating still occupied nearly twice as much time as creating — 而你在 Onboarding 中声明，当前最想投入时间的方向是 Create。</p>
-                <button class="why-link" data-action="toggle-panel" data-target="why2" aria-controls="why2" aria-expanded="false">◦ Why am I seeing this?</button>
-                <div class="why-panel" id="why2">
+                <div class="mirror-evidence" id="mirror-evidence">
                   <b>Evidence &amp; caveat</b>
-                  Type: Inference。对比：Communicate 12.4h vs Create 6.8h（比值 1.8）。你声明的方向来自 Onboarding Step 4。这是一条推断：线下的产品思考（散步、白板讨论）无法被记录，实际投入可能更高。不做评价，只是值得你看见。
+                  Your longest confirmed Create blocks began at 08:42 on Monday, 09:06 on Wednesday, and 08:55 on Friday. Sunday 14:00–17:40 was not recorded, and offline work is not represented.
+                </div>
+                <div class="mirror-context-form" id="mirror-context-form">
+                  <label for="mirror-context">What did HelpMeBe.Me miss?</label>
+                  <textarea id="mirror-context" placeholder="Add a little context in your own words."></textarea>
+                  <button class="btn btn-secondary" type="button" data-action="mirror-save-context">Add context</button>
                 </div>
               </div>
-            </div>
-            <div class="refl-row">
-              <div class="rk"><span class="rk-label">WHAT YOU<br>CHOSE TO<br>REMEMBER</span></div>
-              <div class="rv">
-                <div class="refl-memline"><svg width="13" height="13" viewBox="0 0 48 48" fill="none" style="margin-top:5px;flex-shrink:0;"><path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="4" stroke-linecap="round"/><circle cx="34.6" cy="13.4" r="3.6" fill="#3E5C52"/></svg>Defined the first privacy-first MVP for HelpMeBe.Me.</div>
-                <div class="refl-memline"><svg width="13" height="13" viewBox="0 0 48 48" fill="none" style="margin-top:5px;flex-shrink:0;"><path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#3E5C52" stroke-width="4" stroke-linecap="round"/><circle cx="34.6" cy="13.4" r="3.6" fill="#3E5C52"/></svg>Decided not to make HelpMeBe.Me a habit tracker.</div>
-                <div class="refl-memline" style="color:var(--ink-faint);"><svg width="13" height="13" viewBox="0 0 48 48" fill="none" style="margin-top:5px;flex-shrink:0;"><path d="M 27.88 9.51 A 15 15 0 1 0 38.49 20.12" stroke="#8A857B" stroke-width="4" stroke-linecap="round"/><circle cx="34.6" cy="13.4" r="3.6" fill="#8A857B"/></svg>◐ One private memory</div>
+            </section>
+
+            <section class="mirror-row" aria-label="Current focus">
+              <div class="mirror-row-label">
+                <span class="mirror-mini-icon"><TargetIcon size={22} weight="regular" aria-hidden="true" /></span>
+                <span>Current focus</span>
               </div>
-            </div>
-            <div class="refl-row refl-question">
-              <div class="rk"><span class="rk-label" style="color:var(--accent-deep);">ONE QUESTION<br>TO CARRY<br>FORWARD</span></div>
-              <div class="rv"><p>Does this reflect how you want to spend your time right now?</p>
-              <p style="font-size:12.5px;color:var(--ink-faint);font-family:var(--sans);margin-top:6px;">这只是一个问题，不是一项任务。没有需要完成的目标。</p></div>
-            </div>
+              <div>
+                <div class="mirror-row-copy">You wanted to give more room to creating.</div>
+                <div class="mirror-row-note">Less time doesn’t mean less importance.</div>
+              </div>
+            </section>
+
+            <section class="mirror-row mirror-carry" aria-labelledby="mirror-carry-title">
+              <div class="mirror-row-label">
+                <span class="mirror-mini-icon"><ArrowRightIcon size={22} weight="regular" aria-hidden="true" /></span>
+                <span>Carry forward</span>
+              </div>
+              <div>
+                <div class="mirror-row-copy" id="mirror-carry-title">Reserve two uninterrupted mornings for creating.</div>
+                <div class="mirror-actions">
+                  <button class="mirror-primary" id="mirror-experiment" type="button" data-action="mirror-experiment">Try this next week</button>
+                  <button class="mirror-secondary" id="mirror-observe" type="button" data-action="mirror-observe">Continue observing</button>
+                </div>
+                <div class="mirror-action-note">This is an experiment, not a commitment.</div>
+                <span class="mirror-status" id="mirror-status" aria-live="polite"></span>
+              </div>
+            </section>
+
+            <footer class="mirror-coverage">
+              <InfoIcon size={21} weight="regular" aria-hidden="true" />
+              <span>Based only on the time HelpMeBe.Me could observe. 3 h 40 m was not recorded.</span>
+            </footer>
           </div>
-          <p class="note" style="margin-top:14px;">渐进解锁（V1.2）：第 1–6 天左侧导航完全没有 Reflection；第 7 天出现一条轻提示「Your first week is ready.」，用户点击后 Reflection 才进入永久导航——由数据成熟度驱动的能力生长，不是游戏化。数据不足 3 天时显示："There is not enough data yet to identify a meaningful weekly pattern." Fact / Inference 标签已从主层移除，Type 与证据在 Why 面板内。</p>
         </div>
 
         <!-- ============ PRIVACY ============ -->
@@ -1675,6 +1820,7 @@ import SiteHeader from "../components/SiteHeader.astro";
       button.classList.toggle('active', button.dataset.view === id));
     document.querySelectorAll<HTMLElement>('.side-nav [data-view]').forEach((link) =>
       link.classList.toggle('active', link.dataset.view === id));
+    nextView.closest<HTMLElement>('.app-frame')?.setAttribute('data-active-view', id);
   }
 
   document.querySelectorAll<HTMLElement>('.wf-switch [data-view], .side-nav [data-view]').forEach((element) =>
@@ -1682,6 +1828,9 @@ import SiteHeader from "../components/SiteHeader.astro";
       event.preventDefault();
       showView(element.dataset.view);
     }));
+
+  const requestedWireframe = new URLSearchParams(window.location.search).get('view');
+  if (requestedWireframe === 'reflection') showView('v-reflection');
 
   function togglePanel(id: string | undefined, trigger: HTMLElement) {
     if (!id) return;
@@ -1734,6 +1883,59 @@ import SiteHeader from "../components/SiteHeader.astro";
       case 'dismiss-learning':
         if (targetId) document.getElementById(targetId)?.classList.add('done');
         break;
+      case 'mirror-feedback': {
+        const feedback = trigger.dataset.feedback;
+        document.querySelectorAll<HTMLElement>('[data-action="mirror-feedback"]').forEach((button) => {
+          const selected = button === trigger;
+          button.classList.toggle('active', selected);
+          button.setAttribute('aria-pressed', String(selected));
+        });
+
+        const contextForm = document.getElementById('mirror-context-form');
+        contextForm?.classList.toggle('open', feedback === 'missing-context');
+
+        const mirrorStatus = document.getElementById('mirror-status');
+        if (mirrorStatus) {
+          mirrorStatus.textContent = feedback === 'true'
+            ? 'Thanks — this pattern will stay connected to its evidence.'
+            : feedback === 'not-quite'
+              ? 'Thanks — HelpMeBe.Me will treat this as uncertain.'
+              : feedback === 'missing-context'
+                ? 'Add only what feels useful; you can remove it later.'
+                : '';
+        }
+        break;
+      }
+      case 'mirror-save-context': {
+        const contextInput = document.getElementById('mirror-context');
+        const mirrorStatus = document.getElementById('mirror-status');
+        if (contextInput instanceof HTMLTextAreaElement && mirrorStatus) {
+          mirrorStatus.textContent = contextInput.value.trim()
+            ? 'Context added to this reflection.'
+            : 'Write a little context before adding it.';
+        }
+        break;
+      }
+      case 'mirror-experiment': {
+        const experimentButton = document.getElementById('mirror-experiment');
+        const observeButton = document.getElementById('mirror-observe');
+        const mirrorStatus = document.getElementById('mirror-status');
+        experimentButton?.classList.add('saved');
+        observeButton?.classList.remove('active');
+        if (experimentButton) experimentButton.textContent = 'Experiment saved';
+        if (mirrorStatus) mirrorStatus.textContent = 'We’ll bring this back in next week’s Mirror and ask whether it helped.';
+        break;
+      }
+      case 'mirror-observe': {
+        const experimentButton = document.getElementById('mirror-experiment');
+        const observeButton = document.getElementById('mirror-observe');
+        const mirrorStatus = document.getElementById('mirror-status');
+        experimentButton?.classList.remove('saved');
+        if (experimentButton) experimentButton.textContent = 'Try this next week';
+        observeButton?.classList.add('active');
+        if (mirrorStatus) mirrorStatus.textContent = 'No change this week. HelpMeBe.Me will keep observing this pattern.';
+        break;
+      }
     }
   });
 </script>
